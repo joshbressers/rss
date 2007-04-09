@@ -17,7 +17,7 @@ $ids = run_query($query, NULL);
 foreach ($ids as $url) {
 
     # Wipe the old entries
-    $query = "DELETE FROM feeds WHERE rss_parent = ?";
+    $query = "DELETE FROM feeds WHERE rss_parent = ? AND timestamp < (NOW() - 86400)";
     run_query($query, $url['id']);
 
     # Read the new RSS data

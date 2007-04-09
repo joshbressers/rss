@@ -35,9 +35,10 @@ if ($_POST['Submit'] == 'Submit') {
         $url = $_POST['new_feed'];
         $rss = fetch_rss($url);
         $title = $rss->channel['title'];
+        $link = $rss->channel['link'];
 
-        $query = 'INSERT INTO rss (url, title) VALUES (?, ?)';
-        run_query($query, array($url, $title));
+        $query = 'INSERT INTO rss (url, link, title) VALUES (?, ?, ?)';
+        run_query($query, array($url, $link, $title));
 
     }
 }

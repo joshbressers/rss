@@ -21,7 +21,7 @@ include_once "funcs.inc";
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
 # grab the rss feed parents
-$query = "SELECT id, title FROM rss ORDER BY clicks DESC, id";
+$query = "SELECT id, title, link FROM rss ORDER BY clicks DESC, id";
 $parents = run_query($query, NULL);
 
 # loop over the feed parents
@@ -42,7 +42,7 @@ foreach ($parents as $news) {
     $feeds = run_query($query, $news['id']);
 
     echo '<div id="story_header">' . "\n";
-    printf("%s<br>\n", $news['title']);
+    printf("<a href=\"%s\">%s</a><br>\n", $news['link'], $news['title']);
     echo '</div>' . "\n";
     echo '<div id="story_links">' . "\n";
 

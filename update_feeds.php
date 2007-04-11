@@ -10,14 +10,14 @@ require_once(MAGPIE_DIR.'rss_fetch.inc');
 $query = "START TRANSACTION";
 $ids = run_query($query, NULL);
 
-$query = "SELECT id, url, title FROM rss WHERE last_update < ( NOW() - 900 )";
+$query = "SELECT id, url, title FROM rss WHERE last_update < ( NOW() - 1800 )";
 $ids = run_query($query, NULL);
 
 # Loop over the URLs, loading the data for each
 foreach ($ids as $url) {
 
     # Wipe the old entries
-    $query = "DELETE FROM feeds WHERE rss_parent = ? AND timestamp < (NOW() - 86400)";
+    $query = "DELETE FROM feeds WHERE rss_parent = ? AND timestamp < (NOW() - 3600)";
     run_query($query, $url['id']);
 
     # Read the new RSS data

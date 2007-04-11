@@ -20,9 +20,18 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
-# grab the rss feed parents
-$query = "SELECT id, title, link FROM rss ORDER BY clicks DESC, id";
-$parents = run_query($query, NULL);
+if ($category = $_GET['category']) {
+    $query = "SELECT rss.id, rss.title, rss.link FROM rss
+        JOIN categories ON rss.category = categories.id
+        WHERE categories.name = ?
+        ORDER BY clicks DESC, id";
+    $parents = run_query($query, $_GET['category']);
+
+} else {
+    # grab the rss feed parents
+    $query = "SELECT id, title, link FROM rss ORDER BY clicks DESC, id";
+    $parents = run_query($query, NULL);
+}
 
 # loop over the feed parents
 
@@ -59,10 +68,18 @@ foreach ($parents as $news) {
 
 }
 
+print("</tr></table>\n");
+
+$query = 'SELECT name from categories';
+$results = run_query($query, NULL);
+
+foreach ($results as $name) {
+    $url = $_SERVER['SCRIPT_URI'] . '?category=' . $name['name'];
+    printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
+}
+
 #####################  End PHP Code ############################
 ?>
 
-</tr>
-</table>
 </body>
 </html>

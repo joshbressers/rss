@@ -1,7 +1,9 @@
 <html>
 
 <body>
-<a href="show_feeds.php">Back</a><hr>
+<a href="show_feeds.php">Back</a>
+<a href="manage_categories.php">Categories</a>
+<hr>
 <?php
 #####################  PHP Code ################################
 
@@ -41,6 +43,24 @@ if ($_POST['Submit'] == 'Submit') {
         run_query($query, array($url, $link, $title));
 
     }
+
+    foreach (array_keys($_POST) as $post_variable) {
+        # if /category-%d/
+        if (!strncmp($post_variable, 'category-', 9)) {
+            $value = $_POST[$post_variable];
+            list($null, $rss_id) = split('-', $post_variable);
+
+            # Is this the current value in the db?
+            $query = 'SELECT category FROM rss WHERE id = ?';
+            $result = run_query($query, array($rss_id));
+
+            if ($result[0]['category'] != $value) {
+                # If not, update the db.
+                $query = 'UPDATE rss SET category = ? WHERE id = ?';
+                run_query($query, array($value, $rss_id));
+            }
+        }
+    }
 }
 
 
@@ -57,16 +77,37 @@ if ($_POST['Submit'] == 'Submit') {
 
 # Query the database
 
-$query = 'SELECT id, url, title FROM rss ORDER BY id';
-
+$query = 'SELECT id, url, title, category FROM rss ORDER BY id';
 $result = run_query($query, NULL);
+
+$query = 'SELECT id, name FROM categories ORDER by name';
+$categories = run_query($query, NULL);
 
 # Format the results into a table
 
+print("<table>\n");
 foreach ($result as $row) {
+    print("<tr><td>\n");
     printf("<input type=\"checkbox\" value=\"%d\" name=\"delete[]\">", $row['id']);
-    printf("<a href=\"%s\">%s</a><br>", $row['url'], $row['title']);
+    print("</td><td>\n");
+    printf("<a href=\"%s\">%s</a>", $row['url'], $row['title']);
+    printf("</td>");
+
+    foreach ($categories as $c) {
+        if ($c['id'] == $row['category']) {
+            $checked = 'checked';
+        } else {
+            $checked = '';
+        }
+        print("<td>\n");
+        printf("<input type=\"radio\" value=\"%d\" name=\"category-%d\" %s>%s",
+            $c['id'], $row['id'], $checked, $c['name']);
+        print("</td>\n");
+    }
+
+    print("</tr>");
 }
+print("</table>\n");
 
 #####################  End PHP Code ############################
 ?>

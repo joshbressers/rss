@@ -3,22 +3,26 @@
 <title>Some News</title>
 <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
-
 <body>
-<a href="update_feeds.php">Update News</a>
-<a href="manage_feeds.php">Manage Feeds</a>
-<hr>
 
-<table align="center" border="0" width="100%">
-<tr valign="top">
 <?php
 #####################  PHP Code ################################
-
 include_once "DB.php";
 include_once "config.inc";
 include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
+
+$query = 'SELECT name from categories';
+$results = run_query($query, NULL);
+
+foreach ($results as $name) {
+    $url = $_SERVER['SCRIPT_URI'] . '?category=' . $name['name'];
+    printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
+}
+
+echo '<table align="center" border="0" width="100%">';
+echo '<tr valign="top">';
 
 if ($category = $_GET['category']) {
     $query = "SELECT rss.id, rss.title, rss.link FROM rss
@@ -81,5 +85,8 @@ foreach ($results as $name) {
 #####################  End PHP Code ############################
 ?>
 
+<div id="top_links">
+<a href="manage_feeds.php">Manage Feeds</a>
+</div>
 </body>
 </html>

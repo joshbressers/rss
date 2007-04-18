@@ -39,8 +39,8 @@ if ($_POST['Submit'] == 'Submit') {
         $title = $rss->channel['title'];
         $link = $rss->channel['link'];
 
-        $query = 'INSERT INTO rss (url, link, title) VALUES (?, ?, ?)';
-        run_query($query, array($url, $link, $title));
+        $query = 'INSERT INTO rss (url, link, title, last_update) VALUES (?, ?, ?, ?)';
+        run_query($query, array($url, $link, $title, 0));
 
     }
 

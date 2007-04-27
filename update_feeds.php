@@ -22,7 +22,8 @@ foreach ($ids as $url) {
 
     # Read the new RSS data
     $rss = fetch_rss($url['url']);
-    foreach ($rss->items as $item) {
+    $rss_items = array_reverse($rss->items);
+    foreach ($rss_items as $item) {
         $href = $item['link'];
         $title = $item['title'];
         # Write the new entries into the database

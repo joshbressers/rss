@@ -51,7 +51,7 @@ foreach ($parents as $news) {
     echo '<div id="pretty_table">' . "\n";
 
     # grab the feeds
-    $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ?";
+    $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ? ORDER BY id DESC";
     $feeds = run_query($query, $news['id']);
 
     echo '<div id="story_header">' . "\n";

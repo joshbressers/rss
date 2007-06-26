@@ -40,13 +40,21 @@ if ($category = $_GET['category']) {
 # loop over the feed parents
 
 $cols = 0;
+
+if ($_GET['cols']) {
+    $max_cols = $_GET['cols'];
+} else {
+    $max_cols = 3;
+}
+
+$width = intval(100/$max_cols - 3);
 foreach ($parents as $news) {
 
-    if ($cols++ < 3) {
-        echo '<td width="30%">' . "\n";
+    if ($cols++ < $max_cols) {
+        printf("<td width=\"%s%%\">\n", $width);
     } else {
         $cols = 1;
-        echo '</tr><tr valign="top"><td width="30%">' . "\n";
+        printf("</tr><tr valign=\"top\"><td width=\"%s%%\">\n", $width);
     }
     echo '<div id="pretty_table">' . "\n";
 

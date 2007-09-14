@@ -68,7 +68,7 @@ foreach ($parents as $news) {
     echo '<div id="story_links">' . "\n";
 
     $count = 0;
-    foreach ($feeds as $items) {
+    foreach (array_reverse($feeds) as $items) {
         printf("<a href=\"follow_link.php?id=%s\">- %s</a>\n",
             $items['id'], $items['title']);
         if ($count++ >= 9) break;

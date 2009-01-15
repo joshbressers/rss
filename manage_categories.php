@@ -58,10 +58,21 @@ $result = run_query($query, NULL);
 
 # Format the results into a table
 
+print("<table>\n");
+$table_odd = 0;
 foreach ($result as $row) {
+    if ($table_odd) {
+        print("<tr><td bgcolor=\"#ffffff\">\n");
+        $table_odd = 0;
+    } else {
+        print("<tr><td bgcolor=\"#eeeeee\">\n");
+        $table_odd = 1;
+    }
+
     printf("<input type=\"checkbox\" value=\"%d\" name=\"delete[]\">", $row['id']);
-    printf("%s<br>", $row['name']);
+    printf("%s</td></tr>\n", $row['name']);
 }
+print("</table>\n");
 
 #####################  End PHP Code ############################
 ?>

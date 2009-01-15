@@ -52,7 +52,7 @@ if ($_POST['Submit'] == 'Submit') {
 
 # Query the database
 
-$query = 'SELECT id, name FROM categories ORDER BY name';
+$query = 'SELECT id, name FROM categories';
 
 $result = run_query($query, NULL);
 

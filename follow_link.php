@@ -16,7 +16,7 @@ $query = 'SELECT clicks FROM rss WHERE id = ?';
 $result = run_query($query, $parent_id);
 $clicks = $result[0]['clicks'];
 
-$query = 'UPDATE rss SET clicks = ? WHERE id = ?';
+$query = 'UPDATE rss SET clicks = ?, last_click = NOW() WHERE id = ?';
 run_query($query, array($clicks + 1, $parent_id));
 
 header("Location: " . $url);

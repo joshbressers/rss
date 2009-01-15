@@ -16,6 +16,7 @@ CREATE TABLE `rss` (
     `title` varchar(255) NOT NULL,
     `link` varchar(255) NOT NULL,
     `last_update` timestamp default now(),
+    `last_click` timestamp default now(),
     `clicks` int(10) unsigned NOT NULL default 0,
     `category` int(10) unsigned,
     PRIMARY KEY (`id`),

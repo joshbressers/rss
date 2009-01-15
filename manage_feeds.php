@@ -86,8 +86,15 @@ $categories = run_query($query, NULL);
 # Format the results into a table
 
 print("<table>\n");
+$table_odd = 0;
 foreach ($result as $row) {
-    print("<tr><td>\n");
+    if ($table_odd) {
+        print("<tr bgcolor=\"#ffffff\"><td>\n");
+        $table_odd = 0;
+    } else {
+        print("<tr bgcolor=\"#eeeeee\"><td>\n");
+        $table_odd = 1;
+    }
     printf("<input type=\"checkbox\" value=\"%d\" name=\"delete[]\">", $row['id']);
     print("</td><td>\n");
     printf("<a href=\"%s\">%s</a>", $row['url'], $row['title']);

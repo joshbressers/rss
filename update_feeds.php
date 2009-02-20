@@ -6,6 +6,8 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
+error_reporting(0);
+
 # Load the rss URLs that need to be updated.
 $query = "START TRANSACTION";
 $ids = run_query($query, NULL);
@@ -22,6 +24,7 @@ foreach ($ids as $url) {
 
     # Read the new RSS data
     $rss = fetch_rss($url['url']);
+    if (!$rss) continue;
     $rss_items = array_reverse($rss->items);
     foreach ($rss_items as $item) {
         $href = $item['link'];

@@ -19,8 +19,8 @@ $ids = run_query($query, NULL);
 foreach ($ids as $url) {
 
     # Wipe the old entries
-    $query = "DELETE FROM feeds WHERE rss_parent = ? AND timestamp < (NOW() - 14400)";
-    run_query($query, $url['id']);
+#    $query = "DELETE FROM feeds WHERE rss_parent = ? AND timestamp < (NOW() - 14400)";
+#    run_query($query, $url['id']);
 
     # Read the new RSS data
     $rss = fetch_rss($url['url']);
@@ -29,6 +29,13 @@ foreach ($ids as $url) {
     foreach ($rss_items as $item) {
         $href = $item['link'];
         $title = $item['title'];
+        # See if the URL already exists
+        $query = "SELECT id FROM feeds WHERE (link = ? or title = ?) and rss_parent = ?";
+        $result = run_query($query, array($href, $title, $url['id']));
+        if (count($result) >= 1) {
+            # This URL exists, let's skip it
+            continue;
+        }
         # Write the new entries into the database
         $query = "INSERT INTO feeds (title, link, rss_parent) VALUES (?, ?, ?)";
         run_query($query, array($title, $href, $url['id']));

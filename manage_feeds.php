@@ -97,7 +97,7 @@ foreach ($result as $row) {
     }
     printf("<input type=\"checkbox\" value=\"%d\" name=\"delete[]\">", $row['id']);
     print("</td><td>\n");
-    printf("<a href=\"%s\">%s</a>", $row['url'], $row['title']);
+    printf("<a href=\"edit_feed.php?id=%s\">%s</a>", $row['id'], $row['title']);
     printf("</td>");
 
     foreach ($categories as $c) {

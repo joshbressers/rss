@@ -13,6 +13,8 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
+run_query('START TRANSACTION', NULL);
+
 $query = 'SELECT name from categories';
 $results = run_query($query, NULL);
 
@@ -89,6 +91,8 @@ foreach ($results as $name) {
     $url = $_SERVER['SCRIPT_URI'] . '?category=' . $name['name'];
     printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
 }
+
+run_query('COMMIT', NULL);
 
 #####################  End PHP Code ############################
 ?>

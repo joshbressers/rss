@@ -19,6 +19,8 @@ $db = DB::connect($dsn);
 if (DB::isError($db))
     die("Can't connect to database");
 
+run_query('START TRANSACTION', NULL);
+
 if ($_POST['Submit'] == 'Submit') {
     if (count($_POST['delete']) > 0) {
         # Delete some entries
@@ -115,6 +117,7 @@ foreach ($result as $row) {
     print("</tr>");
 }
 print("</table>\n");
+run_query('COMMIT', NULL);
 
 #####################  End PHP Code ############################
 ?>

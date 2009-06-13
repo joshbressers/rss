@@ -19,6 +19,8 @@ $db = DB::connect($dsn);
 if (DB::isError($db))
     die("Can't connect to database");
 
+run_query('START TRANSACTION', NULL);
+
 $feed_id = $_REQUEST['id'];
 $query = 'SELECT id, url, title, category, link FROM rss WHERE id = ?';
 $result = run_query($query, array($feed_id));
@@ -118,6 +120,8 @@ if ($row) {
 }
 
 print("</table>\n");
+
+run_query('COMMIT', NULL);
 
 #####################  End PHP Code ############################
 ?>

@@ -6,6 +6,8 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
+run_query('START TRANSACTION', NULL);
+
 $story_id = $_GET['id'];
 $query = 'SELECT link, rss_parent FROM feeds WHERE id = ?';
 $result = run_query($query, $story_id);
@@ -18,6 +20,8 @@ $clicks = $result[0]['clicks'];
 
 $query = 'UPDATE rss SET clicks = ?, last_click = NOW() WHERE id = ?';
 run_query($query, array($clicks + 1, $parent_id));
+
+run_query('COMMIT', NULL);
 
 header("Location: " . $url);
 

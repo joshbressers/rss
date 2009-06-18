@@ -61,7 +61,7 @@ foreach ($parents as $news) {
     echo '<div id="pretty_table">' . "\n";
 
     # grab the feeds
-    $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ? ORDER BY id";
+    $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ? ORDER BY id DESC LIMIT 9";
     $feeds = run_query($query, $news['id']);
 
     echo '<div id="story_header">' . "\n";
@@ -70,7 +70,7 @@ foreach ($parents as $news) {
     echo '<div id="story_links">' . "\n";
 
     $count = 0;
-    foreach (array_reverse($feeds) as $items) {
+    foreach ($feeds as $items) {
         printf("<a href=\"follow_link.php?id=%s\">- %s</a>\n",
             $items['id'], $items['title']);
         if ($count++ >= 9) break;

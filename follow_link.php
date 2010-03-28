@@ -14,12 +14,9 @@ $result = run_query($query, $story_id);
 $url = $result[0]['link'];
 $parent_id = $result[0]['rss_parent'];
 
-$query = 'SELECT clicks FROM rss WHERE id = ?';
-$result = run_query($query, $parent_id);
-$clicks = $result[0]['clicks'];
 
-$query = 'UPDATE rss SET clicks = ?, last_click = NOW() WHERE id = ?';
-run_query($query, array($clicks + 1, $parent_id));
+$query = 'UPDATE rss SET clicks = clicks + 1, last_click = NOW() WHERE id = ?';
+run_query($query, array($parent_id));
 
 run_query('COMMIT', NULL);
 

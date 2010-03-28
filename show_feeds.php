@@ -4,9 +4,6 @@
 <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-<div id="top_links">
-<a href="search.php">Search</a>
-</div>
 
 <?php
 #####################  PHP Code ################################
@@ -101,6 +98,7 @@ run_query('COMMIT', NULL);
 ?>
 
 <div id="top_links">
+<a href="search.php">Search</a>
 <a href="manage_feeds.php">Manage Feeds</a>
 </div>
 </body>

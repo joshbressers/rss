@@ -4,6 +4,9 @@
 <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
+<div id="top_links">
+<a href="search.php">Search</a>
+</div>
 
 <?php
 #####################  PHP Code ################################

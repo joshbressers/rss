@@ -20,7 +20,12 @@ $results = run_query($query, NULL);
 
 foreach ($results as $name) {
     $url = $_SERVER['SCRIPT_URI'] . '?category=' . $name['name'];
-    printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
+    if ($_GET['cols']) {
+        printf("<a href=\"%s&cols=%d\">%s</a> ", $url, $_GET['cols'],
+            $name['name']);
+    } else {
+        printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
+    }
 }
 
 echo '<table align="center" border="0" width="100%">';

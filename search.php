@@ -22,7 +22,18 @@ if (DB::isError($db))
 
 run_query('START TRANSACTION', NULL);
 
-if ($_POST['Submit'] == 'Submit') {
+if ($_GET['feed']) {
+
+    $query = 'SELECT id, title, link FROM feeds WHERE rss_parent = ?  ORDER BY id DESC';
+    $feeds = run_query($query, array($_GET['feed']));
+
+    foreach ($feeds as $items) {
+        printf("<a href=\"follow_link.php?id=%s\">- %s</a><br>\n",
+            $items['id'], $items['title']);
+    }
+    echo "<hr>\n";
+
+} elseif ($_POST['Submit'] == 'Submit') {
     # Show the search results
 
     if ($_POST['search_text']) {

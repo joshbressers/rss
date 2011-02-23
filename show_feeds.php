@@ -70,7 +70,8 @@ foreach ($parents as $news) {
     $feeds = run_query($query, $news['id']);
 
     echo '<div id="story_header">' . "\n";
-    printf("<a href=\"%s\">%s</a><br>\n", $news['link'], $news['title']);
+    printf("<a href=\"%s\">%s</a> <a href=\"search.php?feed=%s\">-</a><br>\n",
+        $news['link'], $news['title'], $news['id']);
     echo '</div>' . "\n";
     echo '<div id="story_links">' . "\n";
 

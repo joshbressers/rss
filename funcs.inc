@@ -17,7 +17,8 @@ function run_query($query, $query_vars) {
     }
 
     if (DB::isError($result))
-        die($query . " :Error: " . $result->getMessage());
+        #die($query . " :Error: " . $result->getMessage());
+        throw new Exception($query . " :Error: " . $result->getMessage());
 
     if ($result === DB_OK) {
         return array();

@@ -15,10 +15,14 @@ $url = $result[0]['link'];
 $parent_id = $result[0]['rss_parent'];
 
 
-$query = 'UPDATE rss SET clicks = clicks + 1, last_click = NOW() WHERE id = ?';
-run_query($query, array($parent_id));
+try {
+    $query = 'UPDATE rss SET clicks = clicks + 1, last_click = NOW() WHERE id = ?';
+    run_query($query, array($parent_id));
 
-run_query('COMMIT', NULL);
+    run_query('COMMIT', NULL);
+} catch (Exception $e) {
+    # Do nothing
+}
 
 header("Location: " . $url);
 

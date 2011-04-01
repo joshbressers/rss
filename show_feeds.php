@@ -13,6 +13,13 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
+date_default_timezone_set("EST");
+if (date("m-d") == "04-01") {
+    echo "Don't even bother reading the news today.";
+    echo "</html>";
+    exit(0);
+}
+
 run_query('START TRANSACTION', NULL);
 
 $query = 'SELECT name from categories';

@@ -37,6 +37,7 @@ ul {
 }
 
 .news-block-title {
+ height: 25px;
  text-align: left;
  background-color: #CC9900;
  background-image: none;
@@ -73,6 +74,14 @@ ul {
 
 .news-block-item a:hover {
  background-color: #DEDEDE;
+}
+
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
 }
 
 #top_links {

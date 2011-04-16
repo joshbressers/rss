@@ -93,7 +93,7 @@ foreach ($parents as $news) {
     $feeds = run_query($query, $news['id']);
 
     printf("   <div class=\"news-block-title\">\n");
-    printf("     <a href=\"%s\">%s</a> <a href=\"search.php?feed=%s\">-</a>\n",
+    printf("     <div class=\"left\"><a href=\"%s\">%s</a></div><div class=\"right\"><a href=\"search.php?feed=%s\">all</a></div>\n",
         $news['link'], $news['title'], $news['id']);
     printf("   </div>\n");
     printf("   <ul class=\"news-block-items\">\n");

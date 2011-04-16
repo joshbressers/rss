@@ -1,7 +1,21 @@
 <html>
 <head>
-<title>Some News</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- 1140px Grid styles for IE -->
+<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css"
+type="text/css" media="screen" /><![endif]-->
+
+<!-- The 1140px Grid - http://cssgrid.net/ -->
+<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
+
+<!-- Your styles -->
+<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
+
+<!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
+<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+
 <link rel="stylesheet" type="text/css" href="style.css"/>
+<title>Some News</title>
 </head>
 <body>
 
@@ -25,18 +39,17 @@ run_query('START TRANSACTION', NULL);
 $query = 'SELECT name from categories';
 $results = run_query($query, NULL);
 
+printf("<div id='header'>\n");
 foreach ($results as $name) {
     $url = $_SERVER['SCRIPT_URI'] . '?category=' . $name['name'];
     if ($_GET['cols']) {
         printf("<a href=\"%s&cols=%d\">%s</a> ", $url, $_GET['cols'],
             $name['name']);
     } else {
-        printf("<a href=\"%s\">%s</a> ", $url, $name['name']);
+        printf("<a href=\"%s\">%s</a>\n", $url, $name['name']);
     }
 }
-
-echo '<table align="center" border="0" width="100%">';
-echo '<tr valign="top">';
+printf("</div>\n");
 
 if ($category = $_GET['category']) {
     $query = "SELECT rss.id, rss.title, rss.link FROM rss
@@ -61,41 +74,46 @@ if ($_GET['cols']) {
     $max_cols = 3;
 }
 
-$width = intval(100/$max_cols - 3);
+$col_type = "fourcol";
+
+printf("<div class=\"container\">\n");
+printf(" <div class=\"row\">\n");
+
 foreach ($parents as $news) {
 
     if ($cols++ < $max_cols) {
-        printf("<td width=\"%s%%\">\n", $width);
+        printf("  <div class=\"news-block %s\">\n", $col_type);
     } else {
         $cols = 1;
-        printf("</tr><tr valign=\"top\"><td width=\"%s%%\">\n", $width);
+        printf(" </div><div class=\"row\"><div class=\"news-block %s\">\n", $col_type);
     }
-    echo '<div id="pretty_table">' . "\n";
 
     # grab the feeds
     $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ? ORDER BY id DESC LIMIT 9";
     $feeds = run_query($query, $news['id']);
 
-    echo '<div id="story_header">' . "\n";
-    printf("<a href=\"%s\">%s</a> <a href=\"search.php?feed=%s\">-</a><br>\n",
+    printf("   <div class=\"news-block-title\">\n");
+    printf("     <a href=\"%s\">%s</a> <a href=\"search.php?feed=%s\">-</a>\n",
         $news['link'], $news['title'], $news['id']);
-    echo '</div>' . "\n";
-    echo '<div id="story_links">' . "\n";
+    printf("   </div>\n");
+    printf("   <ul class=\"news-block-items\">\n");
+    printf("     <div id=\"story_links\">\n");
 
     $count = 0;
     foreach ($feeds as $items) {
-        printf("<a href=\"follow_link.php?id=%s\">- %s</a>\n",
+        printf("      <li class=\"news-block-item\"><a href=\"follow_link.php?id=%s\">- %s</a></li>\n",
             $items['id'], $items['title']);
         if ($count++ >= 9) break;
     }
-
-    echo '</div>' . "\n";
-    echo '</div>' . "\n";
-    echo '</td>' . "\n";
+    printf("     </div>\n");
+    printf("    </ul>\n");
+    printf("  </div>\n");
 
 }
 
-print("</tr></table>\n");
+printf("  </div>\n");
+printf("</div>\n");
+printf("<div id='footer'><br>\n");
 
 $query = 'SELECT name from categories';
 $results = run_query($query, NULL);
@@ -109,7 +127,7 @@ run_query('COMMIT', NULL);
 
 #####################  End PHP Code ############################
 ?>
-
+</div>
 <div id="top_links">
 <a href="search.php">Search</a>
 <a href="manage_feeds.php">Manage Feeds</a>

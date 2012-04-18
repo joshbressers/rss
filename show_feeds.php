@@ -94,7 +94,7 @@ foreach ($parents as $news) {
 
     printf("   <div class=\"news-block-title\">\n");
     printf("     <div class=\"left\"><a href=\"%s\">%s</a></div><div class=\"right\"><a href=\"search.php?feed=%s\">all</a></div>\n",
-        $news['link'], $news['title'], $news['id']);
+        $news['link'], strip_tags($news['title']), $news['id']);
     printf("   </div>\n");
     printf("   <ul class=\"news-block-items\">\n");
     printf("     <div id=\"story_links\">\n");
@@ -102,7 +102,7 @@ foreach ($parents as $news) {
     $count = 0;
     foreach ($feeds as $items) {
         printf("      <li class=\"news-block-item\"><a href=\"follow_link.php?id=%s\">- %s</a></li>\n",
-            $items['id'], $items['title']);
+            $items['id'], strip_tags($items['title']));
         if ($count++ >= 9) break;
     }
     printf("     </div>\n");

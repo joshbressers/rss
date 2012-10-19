@@ -1,19 +1,5 @@
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- 1140px Grid styles for IE -->
-<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css"
-type="text/css" media="screen" /><![endif]-->
-
-<!-- The 1140px Grid - http://cssgrid.net/ -->
-<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
-
-<!-- Your styles -->
-<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
-
-<!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
-<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
-
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <title>Some News</title>
 </head>
@@ -74,45 +60,45 @@ if ($_GET['cols']) {
     $max_cols = 3;
 }
 
-$col_type = "fourcol";
-
-printf("<div class=\"container\">\n");
-printf(" <div class=\"row\">\n");
+echo '<table align="center" border="0" width="100%">' . "\n";
+echo '<tr valign="top">' . "\n";
 
 foreach ($parents as $news) {
 
-    if ($cols++ < $max_cols) {
-        printf("  <div class=\"news-block %s\">\n", $col_type);
+    if ($cols++ < 3) {
+        echo '<td width="30%">'. "\n";
     } else {
         $cols = 1;
-        printf(" </div><div class=\"row\"><div class=\"news-block %s\">\n", $col_type);
+        echo '</tr><tr valign="top"><td width="30\%">' . "\n";
     }
+
+    echo '<div id="pretty_table">' . "\n";
 
     # grab the feeds
     $query = "SELECT id, title, link FROM feeds WHERE rss_parent = ? ORDER BY id DESC LIMIT 9";
     $feeds = run_query($query, $news['id']);
 
-    printf("   <div class=\"news-block-title\">\n");
-    printf("     <div class=\"left\"><a href=\"%s\">%s</a></div><div class=\"right\"><a href=\"search.php?feed=%s\">all</a></div>\n",
+    echo '<div id="story_header">' . "\n";
+    printf("  <div class=\"left\"><a href=\"%s\">%s</a></div><div
+class=\"right\"><a href=\"search.php?feed=%s\">all</a></div><br>\n",
         $news['link'], strip_tags($news['title']), $news['id']);
-    printf("   </div>\n");
-    printf("   <ul class=\"news-block-items\">\n");
-    printf("     <div id=\"story_links\">\n");
+    echo '</div>' . "\n";
+    echo '<div id="story_links">' . "\n";
 
     $count = 0;
     foreach ($feeds as $items) {
-        printf("      <li class=\"news-block-item\"><a href=\"follow_link.php?id=%s\">- %s</a></li>\n",
+        printf("<a href=\"follow_link.php?id=%s\">- %s</a>\n",
             $items['id'], strip_tags($items['title']));
         if ($count++ >= 9) break;
     }
-    printf("     </div>\n");
-    printf("    </ul>\n");
-    printf("  </div>\n");
 
+    echo '</div>' . "\n";
+    echo '</div>' . "\n";
+    echo '</td>' . "\n";
 }
+echo '</tr>' . "\n";
+echo '</table>' . "\n";
 
-printf("  </div>\n");
-printf("</div>\n");
 printf("<div id='footer'><br>\n");
 
 $query = 'SELECT name from categories';
@@ -127,7 +113,6 @@ run_query('COMMIT', NULL);
 
 #####################  End PHP Code ############################
 ?>
-</div>
 <div id="top_links">
 <a href="search.php">Search</a>
 <a href="manage_feeds.php">Manage Feeds</a>

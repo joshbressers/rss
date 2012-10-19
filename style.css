@@ -41,6 +41,14 @@ ul {
     float:right;
 }
 
+.header {
+    width:100%;
+}
+
+.footer {
+    width:100%;
+}
+
 #top_links {
         text-align:left;
 }

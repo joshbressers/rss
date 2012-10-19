@@ -5,6 +5,16 @@
 </head>
 <body>
 
+<script>
+if (window.innerWidth < 1000 && window.location.href.indexOf("cols=") == -1) {
+    if (window.location.href.indexOf("?") != -1) {
+        window.location=window.location + "&cols=1";
+    } else {
+        window.location=window.location + "?cols=1";
+    }
+}
+</script>
+
 <?php
 #####################  PHP Code ################################
 include_once "DB.php";
@@ -65,7 +75,7 @@ echo '<tr valign="top">' . "\n";
 
 foreach ($parents as $news) {
 
-    if ($cols++ < 3) {
+    if ($cols++ < $max_cols) {
         echo '<td width="30%">'. "\n";
     } else {
         $cols = 1;

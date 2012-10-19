@@ -6,6 +6,13 @@ include_once "funcs.inc";
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');
 
+if(php_sapi_name() == 'cli' || empty($_SERVER['REMOTE_ADDR'])) {
+    echo "shell\n";
+} else {
+    echo "go away";
+    exit(0);
+}
+
 #error_reporting(0);
 
 # Load the rss URLs that need to be updated.

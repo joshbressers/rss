@@ -30,6 +30,15 @@ if (date("m-d") == "04-01") {
     exit(0);
 }
 
+# CSRF Token
+if (!isset($_SESSION))
+    session_start();
+
+if (!isset($_SESSION['csrf_token'])) {
+    $token = md5(uniqid(rand(), TRUE));
+    $_SESSION['token'] = $token;
+}
+
 run_query('START TRANSACTION', NULL);
 
 $query = 'SELECT name from categories';
@@ -121,11 +130,12 @@ foreach ($results as $name) {
 
 run_query('COMMIT', NULL);
 
+echo '<div id="top_links">' . "\n";
+echo '<a href="search.php">Search</a>' . "\n";
+printf("<a href=\"manage_feeds.php?csrf_token=%s\">Manage Feeds</a>\n",$token);
+
 #####################  End PHP Code ############################
 ?>
-<div id="top_links">
-<a href="search.php">Search</a>
-<a href="manage_feeds.php">Manage Feeds</a>
 </div>
 </body>
 </html>

@@ -4,6 +4,35 @@ $db = DB::connect($dsn);
 if (DB::isError($db))
     die("Can't connect to database");
 
+session_start();
+
+function csrf_validate($input_token) {
+    $stored_token = csrf_get_token();
+    if ($input_token == $stored_token) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function csrf_get_token() {
+    $the_token = '';
+
+    if (!isset($_SESSION['csrf_token'])) {
+        # Generate a new token
+        $_SESSION['csrf_token'] = hash("sha512",mt_rand(0,mt_getrandmax()));
+    }
+
+    $the_token = $_SESSION['csrf_token'];
+
+    # Make sure we have a proper token
+    if ($the_token == '') {
+        throw new Exception("Bad CSRF token");
+    }
+
+    return $the_token;
+}
+
 function run_query($query, $query_vars) {
     global $db;
 

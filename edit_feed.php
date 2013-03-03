@@ -28,6 +28,11 @@ $row=$result[0];
 
 if ($_POST['Submit'] == 'Submit') {
 
+    # Check our CSRF token
+    if (!csrf_validate($_POST['csrf'])) {
+        throw new Exception("Bad CSRF token");
+    }
+
     # Figure out what changed
     # $row['url']
     if ($row['url'] != $_POST['url']) {
@@ -68,6 +73,10 @@ if ($_POST['Submit'] == 'Submit') {
 
 <?php
 #####################  PHP Code ################################
+
+# Add our CSRF token
+printf("<input type=\"hidden\" value=\"%s\" name=\"csrf\">\n",
+    csrf_get_token());
 
 # Query the database
 

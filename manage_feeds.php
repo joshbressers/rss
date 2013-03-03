@@ -22,9 +22,15 @@ if (DB::isError($db))
 run_query('START TRANSACTION', NULL);
 
 if ($_POST['Submit'] == 'Submit') {
+
+    # Check our CSRF token
+    if (!csrf_validate($_POST['csrf'])) {
+        throw new Exception("Bad CSRF token");
+    }
+
     if (count($_POST['delete']) > 0) {
         # Delete some entries
-
+        #
         $query = 'DELETE FROM rss WHERE id = ?';
         $query2 = 'DELETE FROM feeds WHERE rss_parent = ?';
 
@@ -76,6 +82,10 @@ if ($_POST['Submit'] == 'Submit') {
 
 <?php
 #####################  PHP Code ################################
+
+# Add our CSRF token
+printf("<input type=\"hidden\" value=\"%s\" name=\"csrf\">\n",
+    csrf_get_token());
 
 # Query the database
 
